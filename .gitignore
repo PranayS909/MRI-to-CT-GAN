@@ -1,0 +1,81 @@
+# ==========================================
+# Datasets & Medical Imaging Data (Strictly ignore)
+# ==========================================
+data/
+*.nii
+*.nii.gz
+*.dcm
+*.npy
+*.npz
+
+# Keep dataset placeholder structure if desired:
+# !data/.gitkeep
+
+# ==========================================
+# Training Outputs, Checkpoints & Visualizations
+# ==========================================
+checkpoints/
+*.pth
+*.pt
+*.onnx
+
+# Ignore output samples and generated previews
+samples/
+*.png
+check_slice.png
+
+# TensorBoard & Experiment Logs
+runs/
+logs/
+wandb/
+
+# ==========================================
+# Python Environments & Cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+env/
+.venv/
+ml-env/
+
+# Distribution / Packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==========================================
+# IDEs & Editors
+# ==========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# ==========================================
+# Operating System Files
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
