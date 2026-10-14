@@ -20,10 +20,27 @@ def train():
     os.makedirs("checkpoints", exist_ok=True)
     os.makedirs("samples", exist_ok=True)
 
-    train_loader, val_loader = get_dataloaders("data/processed", batch_size=batch_size, num_workers=2)
+    train_loader, val_loader = get_dataloaders("data/processed", batch_size=batch_size, num_workers=0)
 
     netG = Generator().to(device)
     netD = Discriminator().to(device)
+
+    # ----------------- Resume Checkpoint Setup -----------------
+    resume_epoch = 40  # Set to the last saved checkpoint epoch (e.g., 20)
+
+    if resume_epoch > 0:
+        g_path = f"checkpoints/netG_epoch_{resume_epoch:02d}.pth"
+        d_path = f"checkpoints/netD_epoch_{resume_epoch:02d}.pth"   
+        if os.path.exists(g_path) and os.path.exists(d_path):
+            print(f"Loading checkpoint weights from epoch {resume_epoch}...")
+            netG.load_state_dict(torch.load(g_path, map_location=device))
+            netD.load_state_dict(torch.load(d_path, map_location=device))
+            start_epoch = resume_epoch + 1
+        else:
+            print("Checkpoint files not found. Starting from scratch.")
+            start_epoch = 1
+    else:
+        start_epoch = 1
 
     optG = torch.optim.Adam(netG.parameters(), lr=lr, betas=(0.5, 0.999))
     optD = torch.optim.Adam(netD.parameters(), lr=lr, betas=(0.5, 0.999))
@@ -53,7 +70,7 @@ def train():
     print(f"Starting training on {device} (RTX 5070 Laptop with Mixed Precision)...")
     print(f"Tracking validation indices {sample_indices} for visual samples.")
 
-    for epoch in range(1, epochs + 1):
+    for epoch in range(start_epoch, epochs + 1):
         netG.train()
         netD.train()
         running_g, running_d = 0.0, 0.0
